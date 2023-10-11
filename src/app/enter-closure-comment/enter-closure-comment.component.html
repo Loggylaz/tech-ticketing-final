@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+      <div class="col-12 text-left mb-3">
+        <button class="btn btn-secondary" (click)="goBack()">
+          <i class="bi bi-escape"></i> Go Back
+        </button>
+      </div>
+      <div class="col-12 text-center">
+        <h2 class="text-uppercase">Service Report</h2>
+      </div>
+    </div>
+
+    <div class="section-heading text-center">
+      <h2>Intervention Closure Result</h2>
+    </div>
+    <div class="d-flex justify-content-center">
+      <label class="radio-label">
+        <input type="radio" name="interventionResult" [(ngModel)]="interventionOutcome" value="true" (change)="onOutcomeChange()"> Successed
+      </label>
+      <span style="margin-right: 10px;"></span>
+      <label class="radio-label">
+        <input type="radio" name="interventionResult" [(ngModel)]="interventionOutcome" value="false" (change)="onOutcomeChange()"> Failed
+      </label>
+    </div>
+  
+    <div class="section-heading text-center">
+      <h2>Closure Comment</h2>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <textarea
+        id="commentBox"
+        [(ngModel)]="commentText"
+        rows="10"
+        class="form-control"
+        placeholder="Enter your closure comment"
+        (input)="onCommentInput()"
+        style="width: 800px;"
+      ></textarea>
+    
+      <div class="section-heading text-center">
+        <h2>Signature</h2>
+      </div>
+      <div class="signature-container">
+        <signature-pad
+          class="signature-pad-container"
+          #signature
+          [options]="signaturePadOptions"
+          (drawStart)="drawStart($event)"
+          (drawEnd)="drawComplete($event)"
+          required
+        ></signature-pad>
+        <button type="button" (click)="clear()" class="btn btn-outline-primary form-control">
+          Clear Signature
+        </button>
+      </div>
+    </div>
+  
+    <footer class="footer">
+      <button class="btn btn-secondary" (click)="previous()">
+        <i class="bi bi-caret-left-fill"></i> Previous
+      </button>
+      <button
+        class="btn btn-primary btn-block"
+        [routerLink]="['/closure-recap', intervention.idInternalInter]"
+        (click)="submitComment()"
+        [disabled]="isCommentEmpty || !isSignatureDone || !isOutcomeSelected"
+      >
+        Next <i class="bi bi-caret-right-fill"></i>
+      </button>
+    </footer>
+  </div>

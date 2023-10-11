@@ -1,0 +1,120 @@
+.status-line {
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 4px;
+  }
+
+  .bold-text {
+    font-weight: bold;
+  }
+
+  .container {
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .status-blue {
+    background-color: blue;
+  }
+  
+  .status-green {
+    background-color: green;
+  }
+
+  .status-red {
+    background-color: red;
+  }
+
+  /* Couleur bleue pour le statut 1 */
+.status-color-1 {
+    color: blue;
+  }
+  
+  /* Couleur verte pour le statut 2 */
+  .status-color-2 {
+    color: green;
+  }
+  
+  /* Couleur rouge pour le statut 3 */
+  .status-color-3 {
+    color: red;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input[type="date"],
+  input[type="text"],
+  .checkbox-label {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .status-checkboxes {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .reset-button,
+  .filter-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .reset-button {
+    background-color: #ccc;
+    margin-right: 1rem;
+  }
+  
+  .red-text {
+    color: red;
+  }
+
+  .black-text {
+    color: black;
+  }
+
+  .no-planning-message {
+    background-color: #f8d7da; /* Couleur de fond rouge (peut être modifiée) */
+    color: #721c24; /* Couleur du texte (peut être modifiée) */
+    padding: 10px; /* Espacement interne autour du message */
+    border: 1px solid #f5c6cb; /* Bordure rouge (peut être modifiée) */
+    border-radius: 4px; /* Coins arrondis */
+    margin-bottom: 10px; /* Marge en bas pour l'espace supplémentaire */
+    text-align: center; /* Centrer le texte horizontalement */
+  }

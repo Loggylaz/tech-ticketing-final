@@ -1,0 +1,217 @@
+<div class="container">
+
+  <ng-container *ngIf="userRole !== 'Tech'">
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="filter-form">
+      <div class="filter-row">
+        <div class="form-group">
+          <label for="date">Date:</label>
+          <input *ngIf="userRole !== 'Tech'" type="date" formControlName="date" id="date">
+        </div>
+
+      <div class="form-group">
+        <label for="interventionNumber">Intervention Id:</label>
+        <input type="text" formControlName="interventionNumber" id="interventionNumber" placeholder="E.g., 12345">
+      </div>
+
+      <div class="form-group">
+        <label for="interventionSN">Serial Number:</label>
+        <input type="text" formControlName="interventionSN" id="interventionSN" placeholder="E.g., ABC123">
+      </div>
+
+      <div class="form-group">
+        <label for="interventionPudo">Pudo:</label>
+        <input type="text" formControlName="interventionPudo" id="interventionPudo" placeholder="E.g., Pickup Point">
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="form-group">
+        <label for="interventionCompany">Company Name:</label>
+        <input type="text" formControlName="interventionCompany" id="interventionCompany" placeholder="E.g., ABC Inc.">
+      </div>
+
+      <div class="form-group">
+        <label for="interventionTech">Tech:</label>
+        <input type="text" formControlName="interventionTech" id="interventionTech" placeholder="E.g., John Doe">
+      </div>
+
+      <div class="form-group">
+        <label for="interventionCP">Contact Person:</label>
+        <input type="text" formControlName="interventionCP" id="interventionCP" placeholder="E.g., Jane Smith">
+      </div>
+
+      <div class="form-group">
+        <label for="interventionDC">Provider:</label>
+        <input type="text" formControlName="interventionDC" id="interventionDC" placeholder="E.g., XYZ Provider">
+      </div>
+
+
+      <div class="form-group">
+        <label for="interventionAddress">Customer Address:</label>
+        <input type="text" formControlName="interventionAddress" id="interventionAddress" placeholder="E.g., 123 Main St">
+      </div>
+    </div>
+
+
+    <div class="filter-row">
+      <div class="form-group">
+        <label>Status:</label>
+        <div class="status-checkboxes">
+          <label>
+            <input type="checkbox" formControlName="showStatus1">
+            Open
+          </label>
+          <label>
+            <input type="checkbox" formControlName="showStatus2">
+            Completed
+          </label>
+          <label>
+            <input type="checkbox" formControlName="showStatus3">
+            Failed
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button type="button" (click)="resetFilters()" class="reset-button">Réinitialiser</button>
+      <button type="submit" class="filter-button">Filtrer</button>
+    </div>
+  </form>
+  <button *ngIf="showOtherDaysButton" (click)="showAllDays()">Voir les autres jours</button>
+  <hr>
+
+</ng-container>
+
+
+<div class="card" *ngFor="let intervention of filteredInterventions">
+  <div *ngIf="intervention.message; else showInterventionDetails" class="no-planning-message">
+    <!-- Affichez le message si aucune intervention n'est trouvée. -->
+    {{ intervention.message }}
+  </div>
+  <ng-template #showInterventionDetails>
+    <div class="card-body">
+      <div class="status-line" [ngClass]="{'status-blue': intervention.status.id === 1, 'status-green': intervention.status.id === 2, 'status-red': intervention.status.id === 3}"></div>
+      <p class="card-title">
+        <span class="float-start bold-text"><i class="bi bi-ticket-detailed"></i> {{ intervention.directCustomer }} {{ intervention.idExternalInter }}</span>
+        <span class="float-end"><i class="bi bi-box-seam"></i> {{ intervention.interventionParts.length }} part(s)</span>
+      </p>
+      <br>
+      <p class="card-text">
+        <span class="float-start"><i class="bi bi-building"></i> {{ intervention.companyName }}</span>
+        <br>
+        <span class="float-start" [ngClass]="{'status-color-1': intervention.status.id === 1, 'status-color-2': intervention.status.id === 2, 'status-color-3': intervention.status.id === 3}">
+          <i [ngClass]="{'bi bi-clipboard2': intervention.status.id === 1, 'bi bi-clipboard2-check': intervention.status.id === 2, 'bi bi-clipboard2-x': intervention.status.id === 3}"></i>
+          {{ intervention.status.status }}
+        </span>
+        <span class="float-end"> <a [routerLink]="['/details', intervention.idInternalInter]">  <i class="bi bi-chevron-right"></i> </a> </span>
+      </p>
+      <br>
+      <p class="card-text">
+        <span class="float-start"><i class="bi bi-upc"></i> {{ intervention.serialNumber }}</span>
+        <span class="float-end"> <i class="bi bi-clock"></i> {{ intervention.interventionTimeSlotFrom | date:'shortTime' }} - {{ intervention.interventionTimeSlotTo | date:'shortTime' }}</span>
+      </p>
+      <br>
+      <div *ngIf="intervention.status.id === 1">
+        <div *ngIf="userRole !== 'Tech'">
+        <!-- Afficher le nom et prénom du technicien attribué s'il existe -->
+        <div *ngIf="intervention.users" class="float-start">
+          <i class="bi bi-tools"></i> {{ intervention.users.firstname }} {{ intervention.users.name }}
+        </div>
+        <!-- Afficher le bouton "Plan for Tech" uniquement si le statut est 1 -->
+        <div class="float-end">
+          <button (click)="showPlanForTechDialog(intervention)" class="btn btn-primary">Plan for Tech</button>
+        </div>
+        <br>
+        <div *ngIf="intervention.isPlanForTechDialogOpen">
+          <h2>Plan for Tech</h2>
+          <label for="planTech">New Tech :</label>
+          <select [(ngModel)]="selectedTechnician" [ngModelOptions]="{standalone: true}">
+            <option value="" disabled selected>Select/Assign Tech</option>
+            <option *ngFor="let technician of technicians" [value]="technician.idUsers">
+              {{ technician.firstname }} {{ technician.name }}
+            </option>
+          </select>
+          <button (click)="planForTech(selectedInterventionForTech)" class="btn btn-primary">Assign To Tech</button>
+          <button (click)="closePlanForTechDialog(intervention)" class="btn btn-secondary">Close</button>
+        </div>
+        <br>
+        <div class="float-start">
+          <i class="bi bi-calendar-event"></i> {{ intervention.interventionDate | date:'d MMMM y'}}
+        </div>
+        <div class="float-end">
+            <button (click)="showReplanDialog(intervention)" class="btn btn-primary">Replan</button>
+        </div>
+        <br>
+          <div *ngIf="intervention.isReplanDialogOpen">
+            <h2>Replan intervention</h2>
+            <label for="replanDate">New date :</label>
+            <input type="date" id="replanDate" [(ngModel)]="replanDate" [min]="minDate">
+            <button (click)="replanIntervention(selectedIntervention)" class="btn btn-primary">Replan Intervention</button>
+            <button (click)="closeReplanDialog(intervention)" class="btn btn-secondary">Close</button>
+          </div>
+          <br>
+        </div>
+          <!-- <div  >
+            <i class="bi bi-calendar-event"></i>  {{ intervention.calls }}
+          </div> -->
+          <div class="float-start">
+            <div *ngIf="intervention.calls.length > 0">
+              <ng-container *ngIf="hasCallResult1Or2(intervention); else notYetCalled">
+                <p><i class="bi bi-telephone-forward"></i> PRE10AM : {{ getCallResultDescription(intervention) }}</p>
+              </ng-container>
+              <ng-template #notYetCalled>
+                <p><i class="bi bi-telephone-forward"></i> PRE10AM :</p>
+                <p class="red-text">Not Called Yet</p>
+              </ng-template>
+            </div>
+            <div *ngIf="intervention.calls.length === 0">
+              <p>
+                <span class="black-text"><i class="bi bi-telephone-forward"></i> PRE10AM : </span>
+                <span class="red-text">Not Called Yet</span>
+              </p>
+            </div>
+          </div>
+          <div class="float-end">
+            <button (click)="showLogCallDialog(intervention)" class="btn btn-primary" *ngIf="isShowDialogAllowed(intervention)">
+              Log Call
+            </button>
+          </div>
+        </div>
+          <br>
+            <div *ngIf="intervention.isLogCallDialogOpen">
+              <h2>Log Call for intervention</h2>
+              <label for="logCallReason">Call Reason :</label>
+              <div>
+                <label for="callReason">Select Call Reason:</label>
+                <select id="callReason" [(ngModel)]="selectedCallReason" (change)="fetchCallResultsByReasons()">
+                  <ng-container *ngIf="isTechUserRole(); else notTechRole">
+                    <option value="1">PRE10AM</option>
+                  </ng-container>
+                  <ng-template #notTechRole>
+                    <option *ngFor="let callReason of callReasons" [value]="callReason.id">{{ callReason.callReasonDescription }}</option>
+                  </ng-template>
+                </select>
+              </div>
+              <br>
+              <label for="logCallResult">Call Result :</label>
+              <div *ngIf="callResults">
+                <label for="callResult">Select Call Result:</label>
+                <select id="callResult" [(ngModel)]="selectedCallResultId">
+                  <option *ngFor="let callResult of callResults" [value]="callResult.id">{{ callResult.callResultDescription }}</option>
+                </select>
+              </div>
+              <br>
+              <label for="logCallContact">Contacted Person :</label>
+              <input type="text" id="logCallContact" [(ngModel)]="logCallContact">
+              <br>
+              <label for="logCallComment">Comment :</label>
+              <input type="text" id="logCallComment" [(ngModel)]="logCallComment">
+              <button (click)="logCall(selectedIntervention)" class="btn btn-primary">Log Call</button>
+              <button (click)="closeLogCallDialog(intervention)" class="btn btn-secondary">Close</button>
+            </div>
+
+        </div>
+  </ng-template>
+</div>
+</div>

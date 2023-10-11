@@ -1,0 +1,112 @@
+<div class="container mt-4">
+  <div class="d-flex align-items-center justify-content-between">
+    <button class="btn btn-secondary" (click)="goBack()">
+      <i class="bi bi-escape"></i> Go Back
+    </button>
+  </div>
+    <div class="text-center">
+      <h4>DPS# {{ intervention.idExternalInter }}</h4>
+      <h5>{{ intervention.directCustomer }} {{ intervention.productName }}</h5>
+      <p>Service tag: {{ intervention.serialNumber }}</p>
+      <p><span class="badge bg-success">Next Business Day</span></p>
+      <p><span class="badge bg-success">ProSupport</span></p>
+    </div>
+    <hr>
+    <div class="text-center">
+      <button class="btn btn-primary" (click)="startEnRoute()" *ngIf="intervention.status.id === 1 && !enRouteClicked">
+        Start En Route
+      </button>
+      
+      <!-- Affiche le bouton Arrived at CU seulement si le statut est égal à 1 et Start En Route a été cliqué -->
+      <button class="btn btn-success" (click)="arrivedAtCU()" *ngIf="intervention.status.id === 1 && enRouteClicked && !arrivedAtCUClicked">
+        Arrived at CU
+      </button>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+          <h5><i class="bi bi-person"></i> {{ intervention.contactPerson }}</h5>
+          <p><i class="bi bi-building"></i> {{ intervention.companyName }}</p>
+          <p><i class="bi bi-geo-alt"></i><a href="https://www.google.com/maps/place/{{ intervention.companyAddress }}" class="no-underline" target="_blank"> {{ intervention.companyAddress }}</a></p>
+          <p><strong>Service Schedule</strong></p>
+          <p><i class="bi bi-calendar-event"></i> {{ intervention.interventionDate | date:'EEEE, d MMMM y' }}</p>
+          <p><i class="bi bi-clock"></i> {{ intervention.interventionTimeSlotFrom | date:'h:mm a' }} - {{ intervention.interventionTimeSlotTo | date:'h:mm a' }}</p>
+        </div>
+        <div class="col-md-6 order-md-2">
+          <div class="contact-icons">
+            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#phoneModal">
+              <i class="bi bi-telephone"></i>
+            </button>
+            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#mailModal">
+              <i class="bi bi-envelope"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    <hr>
+    <div>
+      <p><strong>Instructions</strong></p>
+      <p>{{ intervention.interDetails }}</p>
+    </div>
+    <hr>
+    <div class="scrolling-wrapper-flexbox">
+        <div class="scrolling-wrapper">
+          <div *ngFor="let part of intervention.interventionParts" class="card part-card">
+            <div class="card-body">
+              <div class="card-title">
+                <span class="icon" [innerHTML]="part.parts.category.icon"></span>
+                <span>{{ part.parts.category.name }}</span>
+              </div>
+              <p class="card-text">{{ part.parts.partDescription }}</p>
+              <small class="card-text">{{ part.parts.category.description }}</small>
+              <p class="card-text"># {{ part.parts.partNumber }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer class="footer">
+        <button class="btn btn-primary btn-block" [routerLink]="getServiceLink()" *ngIf="intervention.status.id !== 1 || arrivedAtCUClicked">
+          {{ intervention.status.id === 2 || intervention.status.id === 3 ? 'SERVICE REPORT' : 'START SERVICE' }}
+        </button>
+      </footer>
+  
+  <!-- Phone Modal -->
+  <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="phoneModalLabel">Phone Numbers</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Display phone numbers from intervention.phoneCps -->
+          <ul class="list-group">
+            <li *ngFor="let phone of intervention.phoneCps" class="list-group-item">
+              <a href="tel:{{ phone.phone }}">{{ phone.phone }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mail Modal -->
+  <div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="mailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mailModalLabel">Mail Addresses</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Display mail addresses from intervention.mailCps -->
+          <ul class="list-group">
+            <li *ngFor="let mail of intervention.mailCps" class="list-group-item">
+              <a href="mailto:{{ mail.mail }}">{{ mail.mail }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

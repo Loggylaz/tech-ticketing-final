@@ -1,0 +1,26 @@
+.modal-dialog {
+    max-width: 80%; /* Ajustez la largeur maximale selon vos besoins */
+    margin: 1rem auto; /* Centre la modale horizontalement avec un espace autour */
+  }
+  
+  /* Styles pour le bouton de fermeture */
+  .btn-close {
+    color: black; /* Couleur du bouton de fermeture */
+    font-size: 1.5rem; /* Taille de la police du bouton de fermeture */
+  }
+  
+  /* Styles pour le contenu de la modale */
+  .modal-body {
+    padding: 1rem; /* Ajoute un espace autour du contenu de la modale */
+  }
+  
+  /* Styles pour les boutons de la modale */
+  .modal-footer {
+    justify-content: space-between; /* Espace équitablement les boutons */
+  }
+  
+  /* Styles pour les messages d'état */
+  .text-success,
+  .text-danger {
+    font-weight: bold; /* Met en gras le texte de l'état */
+  }

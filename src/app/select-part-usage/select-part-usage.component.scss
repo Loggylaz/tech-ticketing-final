@@ -1,0 +1,26 @@
+.card-body-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .container {
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .footer button {
+    width: 100%;
+    box-sizing: border-box;
+  }

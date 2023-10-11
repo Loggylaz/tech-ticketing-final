@@ -1,0 +1,78 @@
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <button class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-escape"></i> Go Back
+      </button>
+    </div>
+
+    <div class="col-12 text-center">
+        <h2 style="text-transform: uppercase;">Service Report</h2>
+      </div>
+
+      <div class="text-center">
+        <h4>DPS# {{ intervention.idExternalInter }}</h4>
+        <h5>{{ intervention.productName }}</h5>
+        <p>Service tag: {{ intervention.serialNumber }}</p>
+        <p><span class="badge bg-success">Next Business Day</span></p>
+        <p><span class="badge bg-success">ProSupport</span></p>
+      </div>
+      <hr>
+      <div class="row">
+
+            <div><strong>Contact(s) Person</strong></div>
+            <p> {{ intervention.contactPerson }}</p>
+            <div *ngFor="let phone of intervention.phoneCps">
+                <div>{{phone.phone}}</div>
+            </div>
+            <br>
+            <div *ngFor="let mail of intervention.mailCps">
+                <div>{{mail.mail}}</div>
+            </div>
+            <hr>
+            <div><strong>Company</strong></div>
+            <div> {{ intervention.companyName }}</div>
+            <hr>
+            <div><strong>Site Address</strong></div>
+            <div>{{ intervention.companyAddress }}</div>
+            <hr>
+            <div><strong>Engineer Details</strong></div>
+            <div>Name : {{ intervention.users.firstname }} {{ intervention.users.name }}</div>
+            <div>ID   : {{ intervention.users.techCode }}</div>
+            <hr>
+            <div><strong>Completed On</strong></div>
+            <div>{{ intervention.timeClosure | date:'EEEE, d MMMM y h:mm a' }}</div>
+            <hr>
+            <div><strong>Issue Resolved</strong></div>
+            <div> {{ intervention.outcome }} </div>
+            <hr>
+            <div><strong>Part(s)</strong></div>
+            <div *ngFor="let part of intervention.interventionParts">
+                <div>{{ part.parts.category.name }} <small>(Part #{{ part.parts.partNumber }})</small></div> 
+                <div>{{ part.parts.partDescription }}</div>
+                <span>Part used : </span>
+                <span [ngClass]="{'text-success': part.isChecked, 'text-danger': !part.isChecked}">
+                    {{ part.isChecked ? 'YES' : 'NO' }}
+                </span>
+                <hr>
+            </div>
+
+
+
+            <div><strong>Comments From Onsite Engineer</strong></div>
+            <div> {{ intervention.closureComment }}</div>
+            <hr>
+            <div><strong>Customer Signature</strong></div>
+            <img [src]="intervention.closureSignature" alt="" style="max-width: 600px; max-height: 400px;">
+
+
+
+        </div>
+
+
+
+<footer class="footer">
+    <button class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-escape"></i> Intervention List
+      </button>
+  </footer>
+</div>

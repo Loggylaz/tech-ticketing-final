@@ -1,0 +1,23 @@
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="scannerModalLabel">Scanner</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <h1> Service Tag Scan </h1>
+          <!-- ngx-scanner-qrcode -->
+          <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, scanner)"></ngx-scanner-qrcode>
+          <!-- loading -->
+          <p *ngIf="action.isLoading">⌛ Loading...</p>
+          <div *ngFor="let item of qrCodeResult">
+            <ngx-scanner-qrcode #actionFile="scanner" [src]="item.url" [config]="config"
+              (event)="onEvent($event)"></ngx-scanner-qrcode>
+            <!-- <p class="data">{{ actionFile.data | async }}</p> -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  (click)="close()">Close</button>
+          <button type="button" class="btn btn-primary"  (click)="submit()">Submit</button>
+        </div>
+      </div>
