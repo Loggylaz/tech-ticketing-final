@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backendUrl: 'https://tech-ticketing-0481f8c73394.herokuapp.com/'
+  backendUrl: 'https://tech-ticketing-0481f8c73394.herokuapp.com'
 };
 
 /*
