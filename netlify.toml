@@ -1,11 +1,11 @@
 [[redirects]]
-  from = "/*"
+  from = "/auth/*"
   to = "https://tech-ticketing-0481f8c73394.herokuapp.com/:splat"
   status = 200
   force = true
   headers = { X-From = "Netlify" }
 
 [[headers]]
-  for = "/*"
+  for = "/auth/*"
   [headers.values]
   Access-Control-Allow-Origin = "*"
