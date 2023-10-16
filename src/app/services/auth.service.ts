@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
@@ -154,16 +154,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    // Créez un objet HttpHeaders pour spécifier les en-têtes CORS
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*' // Ajoutez ceci pour CORS
-        // Vous pouvez également ajouter d'autres en-têtes CORS si nécessaire
-      })
-    };
-  
-    return this.http.post<LoginResponse>(`${environment.backendUrl}/auth/login`, { username, password }, httpOptions).pipe(
+    return this.http.post<LoginResponse>(`${environment.backendUrl}/auth/login`, {username, password}).pipe(
       tap((res: LoginResponse) => this.doLoginUser(res)),
       catchError(error => {
         console.error(error);
