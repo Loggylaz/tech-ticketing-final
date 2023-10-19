@@ -1,0 +1,14 @@
+<div class="burger-menu" *ngIf="isMenuOpen">
+    <ul class="navbar-nav">
+      <li *ngIf="roleUser === 'Admin'" class="nav-item">
+        <a class="nav-link" [routerLink]="['/subscribe']">Add User</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/intervention']">Planning</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/change-password']">Change Infos</a>
+      </li>
+      <!-- Ajoutez d'autres liens de menu burger ici -->
+    </ul>
+  </div>

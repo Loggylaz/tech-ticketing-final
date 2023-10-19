@@ -1,26 +1,29 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Unit-T</a>
-    
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li *ngIf="this.roleUser == 'Admin'"  class="nav-item">
-          <a class="nav-link" [routerLink]="['/subscribe']" >Add user</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/intervention']">Planning</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/change-password']">Change Infos</a>
-        </li>
-      </ul>
-    </div>
-    
-    <div class="navbar-text ml-auto">
-      <span class="text-light"> <i class="bi bi-person"></i> {{ firstNameUser }} {{ nameUser }}       </span>
-      <button *ngIf="this.isLoggedIn" class="btn btn-danger ml-3" (click)="logout()">Log out</button>
-    </div>
-  </nav>
+  <a class="navbar-brand" href="#">Unit-T</a>
+  
+
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li *ngIf="roleUser === 'Admin'" class="nav-item">
+        <a class="nav-link" [routerLink]="['/subscribe']">Add user</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/intervention']">Planning</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/change-password']">Change Infos</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="navbar-text ml-auto">
+    <span class="text-light"> <i class="bi bi-person"></i> {{ firstNameUser }} {{ nameUser }} </span>
+    <button *ngIf="isLoggedIn" class="btn btn-danger ml-3" (click)="logout()">Log out</button>
+  </div>
+</nav>
+<app-burger-menu></app-burger-menu> <!-- Ajoutez ici le composant BurgerMenu -->

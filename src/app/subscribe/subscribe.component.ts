@@ -68,7 +68,7 @@ export class SubscribeComponent implements OnInit {
       
       const requestBody = {
         user: {
-          email: this.user.email,
+          email: this.user.email.toLowerCase(),
           password: this.user.password,
           name: this.user.name,
           firstname: this.user.firstname,

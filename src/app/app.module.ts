@@ -31,6 +31,7 @@ import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { BurgerMenuComponent } from './burger-menu/burger-menu.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     EnterClosureCommentComponent,
     SignatureClosureComponent,
     ClosureRecapComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    BurgerMenuComponent
   ],
   imports: [
     BrowserModule,

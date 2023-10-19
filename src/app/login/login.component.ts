@@ -34,7 +34,10 @@ export class LoginComponent implements OnInit{
 
 
   login() {
-    this.auth.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
+
+    const username = this.loginForm.controls['username'].value.toLowerCase();
+
+    this.auth.login(username, this.loginForm.controls['password'].value)
       .subscribe(
         success => {
           console.log(success);
