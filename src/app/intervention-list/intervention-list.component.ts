@@ -43,6 +43,9 @@ export class InterventionListComponent implements OnInit {
     // Selected interventions for dialogs
     selectedIntervention: any | null = null;
     selectedInterventionForTech: any | null = null;
+
+      selectedDate: Date = new Date()
+    selectedDateString: string = this.selectedDate.toISOString().split('T')[0];
   
 
   constructor(
@@ -53,6 +56,9 @@ export class InterventionListComponent implements OnInit {
     private http: HttpClient
      ) { }
 
+      timestampToDate(timestamp: number): Date {
+      return new Date(timestamp);
+    }
 
   ngOnInit(): void {
     this.userRole = this.auth.getRole();
@@ -350,6 +356,21 @@ export class InterventionListComponent implements OnInit {
 
   if (this.filteredInterventions.length === 0) {
     this.filteredInterventions.push({ message: 'No planning for this day' });
+  }
+
+      if (filters.date) {
+    const selectedDate = new Date(filters.date); // La date sélectionnée depuis le formulaire
+
+    // Convertir la date en timestamp Unix
+    // Filtrer les interventions en fonction de la date sélectionnée
+    this.filteredInterventions = this.filteredInterventions.filter(intervention => {
+      const interventionDate = new Date(intervention.interventionDate);
+      return (
+        interventionDate.getFullYear() === selectedDate.getFullYear() &&
+        interventionDate.getMonth() === selectedDate.getMonth() &&
+        interventionDate.getDate() === selectedDate.getDate()
+      );
+    });
   }
 
 
